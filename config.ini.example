@@ -1,0 +1,6 @@
+[twitter]
+key = 'your twitter app api key'
+secret = 'your twitter app api secret'
+
+[github]
+token = 'your github access token'
