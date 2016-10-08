@@ -4,6 +4,8 @@ import base64
 import click
 import configparser
 
+DEFAULT_CONFIG = 'config.ini'
+
 def twitter_session(api_key, api_secret):
     session = requests.Session()
     secret = '{}:{}'.format(api_key, api_secret)
@@ -53,12 +55,15 @@ def print_tweet(tweet):
     print('Retweets: {}, Likes: {}'.format(rt, fw))
 
 @click.command()
-@click.option('--search', help = 'Searched string', prompt = 'Enter searched string')
-def twitter_wall(search):
-    config = configparser.ConfigParser()
-    config.read('config.ini')
+#@click.option('--search', help = 'Searched string', prompt = 'Enter searched string')
+@click.argument('searched_string')
+@click.option('--config', '-c',  help = 'Path to custom config file', default = DEFAULT_CONFIG)
+def twitter_wall(searched_string, config):
+   
+    config_file = configparser.ConfigParser()
+    config_file.read(config)
 
-    tweets = get_tweets(search, config)
+    tweets = get_tweets(searched_string, config_file)
 
     for tweet in tweets['statuses']:
         print_tweet(tweet)
