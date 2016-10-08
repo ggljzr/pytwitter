@@ -54,21 +54,24 @@ def print_tweet(tweet):
     time = tweet['created_at']
     rt = tweet['retweet_count']
     fw = tweet['favorite_count']
-    hashtags = tweet['entities']['hashtags']
-    mentions = tweet['entities']['user_mentions']
+
+    entities = tweet['entities']['hashtags'] + tweet['entities']['user_mentions']
+    entities.sort(key = lambda e: e['indices'][0])
 
     shift = 0
+    for entity in entities:
+        text_len = 0
+        styled_text = None
 
-    for hashtag in hashtags:
-        styled_text = click.style('#' + hashtag['text'], fg = 'blue')
-        text = text[:(hashtag['indices'][0] + shift)] + styled_text + text[(hashtag['indices'][1] + shift):]
-        shift = shift + len(styled_text) - (len(hashtag['text'])  + 1)
+        if 'screen_name' in entity:
+            text_len = len(entity['screen_name'])
+            styled_text = click.style('@' + entity['screen_name'], fg = 'cyan')
+        else:
+            text_len = len(entity['text'])
+            styled_text = click.style('#' + entity['text'], fg = 'blue')
 
-    shift = 0
-    for mention in mentions:
-        styled_text = click.style('@' + mention['screen_name'], fg = 'cyan')
-        text = text[:(mention['indices'][0] + shift)] + styled_text + text[(mention['indices'][1] + shift):]
-        shift = shift + len(styled_text) - (len(mention['screen_name']) + 1)
+        text = text[:(entity['indices'][0] + shift)] + styled_text + text[(entity['indices'][1] + shift):]
+        shift = shift + len(styled_text) - (text_len  + 1)
 
     click.echo('------')
     click.secho('ID: {}'.format(tweet['id']), fg = 'green')
