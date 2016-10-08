@@ -56,13 +56,18 @@ def print_tweet(tweet):
     hashtags = tweet['entities']['hashtags']
     mentions = tweet['entities']['user_mentions']
 
+    shift = 0
+
     for hashtag in hashtags:
         styled_text = click.style('#' + hashtag['text'], fg = 'blue')
-        text = text.replace('#' + hashtag['text'], styled_text)
+        text = text[:(hashtag['indices'][0] + shift)] + styled_text + text[(hashtag['indices'][1] + shift):]
+        shift = shift + len(styled_text) - (len(hashtag['text'])  + 1)
 
+    shift = 0
     for mention in mentions:
         styled_text = click.style('@' + mention['screen_name'], fg = 'cyan')
-        text = text.replace('@' + mention['screen_name'], styled_text)
+        text = text[:(mention['indices'][0] + shift)] + styled_text + text[(mention['indices'][1] + shift):]
+        shift = shift + len(styled_text) - (len(mention['screen_name']) + 1)
 
     click.echo('------')
     click.secho('ID: {}'.format(tweet['id']), fg = 'green')
