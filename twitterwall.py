@@ -30,22 +30,13 @@ def twitter_session(api_key, api_secret):
     session.auth = bearer_auth
     return session
 
+#count = 15 is to mimic default GET search/tweets behaviour
+def get_tweets(search, session, count = 15, since_id = 0):
 
-def get_tweets(search, session, count, since_id = None):
-
-    r = None
-
-    #dry strike one
-    if since_id == None:
-        r = session.get(
-                'https://api.twitter.com/1.1/search/tweets.json',
-                params = {'q' : str(search), 'count' : str(count)},
-        )
-    else:
-        r = session.get(
-                'https://api.twitter.com/1.1/search/tweets.json',
-                params = {'q' : str(search), 'since_id' : since_id},
-        )    
+    r = session.get(
+            'https://api.twitter.com/1.1/search/tweets.json',
+            params = {'q' : str(search), 'since_id' : since_id, 'count' : count},
+    )    
         
     r.raise_for_status()
 
@@ -78,11 +69,13 @@ def twitter_wall(searched_string, config, count, interval):
 
     session = twitter_session(config_file['twitter']['key'], config_file['twitter']['secret'])
 
-    tweets = get_tweets(searched_string, session, count)
-
     last_id = 0
 
+    #first we get desired number (set by --count option) of tweets
+    tweets = get_tweets(searched_string, session, count = count)
+    
     while True:
+
 
         for tweet in tweets['statuses']:
             print_tweet(tweet)
@@ -91,7 +84,8 @@ def twitter_wall(searched_string, config, count, interval):
             if tweet['id'] > last_id:
                 last_id = tweet['id']
 
-        tweets = get_tweets(searched_string, session, count, since_id = last_id)
+        #then we get any number of new tweets
+        tweets = get_tweets(searched_string, session, since_id = last_id)
         time.sleep(interval)
 
 if __name__ == '__main__':
