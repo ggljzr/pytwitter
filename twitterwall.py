@@ -3,6 +3,7 @@ import requests
 import base64
 import click
 import configparser
+import time
 
 DEFAULT_CONFIG = 'config.ini'
 
@@ -30,15 +31,22 @@ def twitter_session(api_key, api_secret):
     return session
 
 
-def get_tweets(search, config):
+def get_tweets(search, session, count, since_id = None):
 
-    session = twitter_session(config['twitter']['key'], config['twitter']['secret'])
+    r = None
 
-    r = session.get(
-            'https://api.twitter.com/1.1/search/tweets.json',
-            params = {'q' : str(search)},
-    )
-
+    #dry strike one
+    if since_id == None:
+        r = session.get(
+                'https://api.twitter.com/1.1/search/tweets.json',
+                params = {'q' : str(search), 'count' : str(count)},
+        )
+    else:
+        r = session.get(
+                'https://api.twitter.com/1.1/search/tweets.json',
+                params = {'q' : str(search), 'since_id' : since_id},
+        )    
+        
     r.raise_for_status()
 
     return r.json()
@@ -50,24 +58,41 @@ def print_tweet(tweet):
     rt = tweet['retweet_count']
     fw = tweet['favorite_count']
 
+    print('------')
+    print('ID: {}'.format(tweet['id']))
     print('@{} {}'.format(user_name, time))
     print(text)
     print('Retweets: {}, Likes: {}'.format(rt, fw))
+    print('------')
 
 @click.command()
 #@click.option('--search', help = 'Searched string', prompt = 'Enter searched string')
 @click.argument('searched_string')
 @click.option('--config', '-c',  help = 'Path to custom config file', default = DEFAULT_CONFIG)
-def twitter_wall(searched_string, config):
+@click.option('--count', '-n', help = 'Number of initialy displayed tweets', default = 5)
+@click.option('--interval', '-i', help = 'How often ask for new tweets (pause between requests in seconds)', default = 1)
+def twitter_wall(searched_string, config, count, interval):
    
     config_file = configparser.ConfigParser()
     config_file.read(config)
 
-    tweets = get_tweets(searched_string, config_file)
+    session = twitter_session(config_file['twitter']['key'], config_file['twitter']['secret'])
 
-    for tweet in tweets['statuses']:
-        print_tweet(tweet)
-        print()
+    tweets = get_tweets(searched_string, session, count)
+
+    last_id = 0
+
+    while True:
+
+        for tweet in tweets['statuses']:
+            print_tweet(tweet)
+            print()
+
+            if tweet['id'] > last_id:
+                last_id = tweet['id']
+
+        tweets = get_tweets(searched_string, session, count, since_id = last_id)
+        time.sleep(interval)
 
 if __name__ == '__main__':
     twitter_wall()    
