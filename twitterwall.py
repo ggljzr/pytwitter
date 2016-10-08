@@ -87,7 +87,8 @@ def print_tweet(tweet):
 @click.option('--interval', '-i', help = 'How often ask for new tweets (pause between requests in seconds)', default = 1)
 @click.option('--lang', '-l', help = 'Restrict search to given language (usning lang parameter in GET search/tweets)', default = None)
 @click.option('--clear/--no-clear', help = 'Clears screen after every get request', default = False)
-def twitter_wall(searched_string, config, count, interval, lang, clear):
+@click.option('--retweets/--no-retweets', help = 'Show retweets in feed?', default = True)
+def twitter_wall(searched_string, config, count, interval, lang, clear, retweets):
    
     config_file = configparser.ConfigParser()
     config_file.read(config)
@@ -102,8 +103,10 @@ def twitter_wall(searched_string, config, count, interval, lang, clear):
     while True:
 
         for tweet in tweets['statuses']:
-            print_tweet(tweet)
-            print()
+            
+            if (retweets == False and not ('retweeted_status' in tweet)) or (retweets == True):
+                print_tweet(tweet)
+                print()
 
             if tweet['id'] > last_id:
                 last_id = tweet['id']
