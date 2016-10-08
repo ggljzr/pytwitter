@@ -48,13 +48,26 @@ def print_tweet(tweet):
     time = tweet['created_at']
     rt = tweet['retweet_count']
     fw = tweet['favorite_count']
+    hashtags = tweet['entities']['hashtags']
+    mentions = tweet['entities']['user_mentions']
 
-    print('------')
-    print('ID: {}'.format(tweet['id']))
-    print('@{} {}'.format(user_name, time))
-    print(text)
-    print('Retweets: {}, Likes: {}'.format(rt, fw))
-    print('------')
+    for hashtag in hashtags:
+        styled_text = click.style('#' + hashtag['text'], fg = 'blue')
+        text = text.replace('#' + hashtag['text'], styled_text)
+
+    for mention in mentions:
+        styled_text = click.style('@' + mention['screen_name'], fg = 'cyan')
+        text = text.replace('@' + mention['screen_name'], styled_text)
+
+    click.echo('------')
+    click.secho('ID: {}'.format(tweet['id']), fg = 'green')
+    click.secho('@{}'.format(user_name), fg = 'blue', bold = True, nl = False)
+    click.secho(' {}'.format(time), fg = 'magenta')
+    click.echo(text)
+    click.echo('Retweets: {}, Likes: {}'.format(rt, fw))
+
+    click.echo('------')
+
 
 @click.command()
 #@click.option('--search', help = 'Searched string', prompt = 'Enter searched string')
@@ -75,7 +88,6 @@ def twitter_wall(searched_string, config, count, interval):
     tweets = get_tweets(searched_string, session, count = count)
     
     while True:
-
 
         for tweet in tweets['statuses']:
             print_tweet(tweet)
