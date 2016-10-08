@@ -31,11 +31,16 @@ def twitter_session(api_key, api_secret):
     return session
 
 #count = 15 is to mimic default GET search/tweets behaviour
-def get_tweets(search, session, count = 15, since_id = 0):
+def get_tweets(search, session, count = 15, since_id = 0, lang = None):
+
+    params = {'q' : search, 'since_id' : since_id, 'count' : count}
+
+    if lang != None:
+        params['lang'] = lang
 
     r = session.get(
             'https://api.twitter.com/1.1/search/tweets.json',
-            params = {'q' : str(search), 'since_id' : since_id, 'count' : count},
+            params = params,
     )    
         
     r.raise_for_status()
@@ -75,7 +80,8 @@ def print_tweet(tweet):
 @click.option('--config', '-c',  help = 'Path to custom config file', default = DEFAULT_CONFIG)
 @click.option('--count', '-n', help = 'Number of initialy displayed tweets', default = 5)
 @click.option('--interval', '-i', help = 'How often ask for new tweets (pause between requests in seconds)', default = 1)
-def twitter_wall(searched_string, config, count, interval):
+@click.option('--lang', '-l', help = 'Restrict search to given language (usning lang parameter in GET search/tweets)', default = None)
+def twitter_wall(searched_string, config, count, interval, lang):
    
     config_file = configparser.ConfigParser()
     config_file.read(config)
@@ -85,7 +91,7 @@ def twitter_wall(searched_string, config, count, interval):
     last_id = 0
 
     #first we get desired number (set by --count option) of tweets
-    tweets = get_tweets(searched_string, session, count = count)
+    tweets = get_tweets(searched_string, session, count = count, lang = lang)
     
     while True:
 
@@ -97,7 +103,7 @@ def twitter_wall(searched_string, config, count, interval):
                 last_id = tweet['id']
 
         #then we get any number of new tweets
-        tweets = get_tweets(searched_string, session, since_id = last_id)
+        tweets = get_tweets(searched_string, session, since_id = last_id, lang = lang)
         time.sleep(interval)
 
 if __name__ == '__main__':
