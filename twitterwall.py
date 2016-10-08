@@ -50,6 +50,7 @@ def get_tweets(search, session, count = 15, since_id = 0, lang = None):
 def print_tweet(tweet):
     text = tweet['text']
     user_name = tweet['user']['name']
+    screen_name = tweet['user']['screen_name']
     time = tweet['created_at']
     rt = tweet['retweet_count']
     fw = tweet['favorite_count']
@@ -71,7 +72,8 @@ def print_tweet(tweet):
 
     click.echo('------')
     click.secho('ID: {}'.format(tweet['id']), fg = 'green')
-    click.secho('@{}'.format(user_name), fg = 'blue', bold = True, nl = False)
+    click.secho(user_name, fg = 'blue', bold = True, nl = False)
+    click.secho(' @{}'.format(screen_name), fg = 'white', bold = True, nl = False)
     click.secho(' {}'.format(time), fg = 'magenta')
     click.echo(text)
     click.echo('Retweets: {}, Likes: {}'.format(rt, fw))
