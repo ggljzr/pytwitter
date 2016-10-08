@@ -86,7 +86,8 @@ def print_tweet(tweet):
 @click.option('--count', '-n', help = 'Number of initialy displayed tweets', default = 5)
 @click.option('--interval', '-i', help = 'How often ask for new tweets (pause between requests in seconds)', default = 1)
 @click.option('--lang', '-l', help = 'Restrict search to given language (usning lang parameter in GET search/tweets)', default = None)
-def twitter_wall(searched_string, config, count, interval, lang):
+@click.option('--clear/--no-clear', help = 'Clears screen after every get request', default = False)
+def twitter_wall(searched_string, config, count, interval, lang, clear):
    
     config_file = configparser.ConfigParser()
     config_file.read(config)
@@ -106,6 +107,9 @@ def twitter_wall(searched_string, config, count, interval, lang):
 
             if tweet['id'] > last_id:
                 last_id = tweet['id']
+        
+        if clear == True:
+            click.clear()
 
         #then we get any number of new tweets
         tweets = get_tweets(searched_string, session, since_id = last_id, lang = lang)
