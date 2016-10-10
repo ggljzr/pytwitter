@@ -20,7 +20,9 @@ def twitter_session(api_key, api_secret):
     r = session.post('https://api.twitter.com/oauth2/token',
                      headers=headers,
                      data={'grant_type': 'client_credentials'})
- 
+
+    r.raise_for_status()
+    
     bearer_token = r.json()['access_token']
  
     def bearer_auth(req):
