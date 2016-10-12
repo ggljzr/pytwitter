@@ -107,7 +107,7 @@ def print_tweet(tweet):
 @click.option(
     '--lang',
     '-l',
-    help='Restrict search to given language (usning lang parameter in GET search/tweets)',
+    help='Restrict search to given language (using lang parameter in GET search/tweets)',
     default=None)
 @click.option(
     '--clear/--no-clear',
