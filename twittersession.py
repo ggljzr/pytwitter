@@ -42,12 +42,12 @@ class TwitterSession:
         return config_file
 
     def __init__(self, config_path=DEFAULT_CONFIG):
-        self.cfg = TwitterSession.parse_config(config_path)
+        cfg = TwitterSession.parse_config(config_path)
         self.session = TwitterSession.create_twitter_session(
             self.cfg['twitter']['key'], self.cfg['twitter']['secret'])
 
     #count = 15 is to mimic default GET search/tweets behaviour
-    def get_tweets(self, search, count=15, since_id=0, lang=None):
+    def get_tweets(self, search, coun://imap.fit.cvut.cz/roundcube/?_task=mail&_mbox=INBOXt=15, since_id=0, lang=None):
 
         params = {'q': search, 'since_id': since_id, 'count': count}
 
