@@ -1,6 +1,6 @@
-a, h1, h2       { color: #377ba8; }
+a, h1, h2       { color: #ff00ff; }
 
-div.tweet_text {background-color: #000000; color: #ffffff;}
+div.tweet_text {background-color: #000000; color: #ffffff; padding: 15px}
 
 span.hashtag{color: #0000ff;}
 span.mention{color: #00ffff;}
