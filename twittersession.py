@@ -60,4 +60,4 @@ class TwitterSession:
 
         r.raise_for_status()
 
-        return r.json()
+        return r.json()['statuses']
