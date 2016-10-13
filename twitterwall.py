@@ -57,7 +57,7 @@ def console(searched_string, config, count, interval, lang, clear, retweets):
 
     while True:
 
-        for tweet in tweets['statuses']:
+        for tweet in tweets:
 
             if (retweets == False and not ('retweeted_status' in tweet)) or (
                     retweets == True):
