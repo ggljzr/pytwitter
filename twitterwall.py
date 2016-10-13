@@ -3,6 +3,7 @@ import click
 
 from flaskapp import app, session, colorize
 from twittersession import TwitterSession, DEFAULT_CONFIG
+from jinja2 import Markup
 
 def url_wrap(url):
     return click.style(url['url'], underline=True, fg='yellow')
@@ -16,6 +17,7 @@ def mention_wrap(mention):
 def print_tweet(tweet):
  
     text = colorize(tweet, hashtag_wrap, mention_wrap, url_wrap)
+    text = Markup.unescape(text)
 
     click.echo('------')
     click.secho('ID: {}'.format(tweet['id']), fg='green')
