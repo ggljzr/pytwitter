@@ -1,54 +1,9 @@
-import requests
-import base64
-import click
-import configparser
 import time
+import click
 
-DEFAULT_CONFIG = 'config.ini'
+import apiutils as api
 
-
-def twitter_session(api_key, api_secret):
-    session = requests.Session()
-    secret = '{}:{}'.format(api_key, api_secret)
-    secret64 = base64.b64encode(secret.encode('ascii')).decode('ascii')
-
-    headers = {
-        'Authorization': 'Basic {}'.format(secret64),
-        'Host': 'api.twitter.com',
-    }
-
-    r = session.post(
-        'https://api.twitter.com/oauth2/token',
-        headers=headers,
-        data={'grant_type': 'client_credentials'})
-
-    r.raise_for_status()
-
-    bearer_token = r.json()['access_token']
-
-    def bearer_auth(req):
-        req.headers['Authorization'] = 'Bearer ' + bearer_token
-        return req
-
-    session.auth = bearer_auth
-    return session
-
-
-#count = 15 is to mimic default GET search/tweets behaviour
-def get_tweets(search, session, count=15, since_id=0, lang=None):
-
-    params = {'q': search, 'since_id': since_id, 'count': count}
-
-    if lang != None:
-        params['lang'] = lang
-
-    r = session.get(
-        'https://api.twitter.com/1.1/search/tweets.json',
-        params=params, )
-
-    r.raise_for_status()
-
-    return r.json()
+from flaskapp import app
 
 
 def print_tweet(tweet):
@@ -90,13 +45,28 @@ def print_tweet(tweet):
     click.echo('------')
 
 
-@click.command()
+@click.group()
+def twitter_wall():
+    pass
+
+
+@twitter_wall.command()
+def web():
+    '''
+    Runs embedded Flask webserver in debug mode
+    This is for debugging purposes only!
+    For production use interface like wsgi to serve app with normal web server (like nginx)
+    '''
+    app.run(debug=True)
+
+
+@twitter_wall.command()
 @click.argument('searched_string')
 @click.option(
     '--config',
     '-c',
     help='Path to custom config file',
-    default=DEFAULT_CONFIG)
+    default=api.DEFAULT_CONFIG)
 @click.option(
     '--count', '-n', help='Number of initialy displayed tweets', default=5)
 @click.option(
@@ -115,19 +85,17 @@ def print_tweet(tweet):
     default=False)
 @click.option(
     '--retweets/--no-retweets', help='Show retweets in feed?', default=True)
-def twitter_wall(searched_string, config, count, interval, lang, clear,
-                 retweets):
+def console(searched_string, config, count, interval, lang, clear, retweets):
 
-    config_file = configparser.ConfigParser()
-    config_file.read(config)
+    cfg = api.get_config(config_path=config)
 
-    session = twitter_session(config_file['twitter']['key'],
-                              config_file['twitter']['secret'])
+    session = api.twitter_session(cfg['twitter']['key'],
+                                  cfg['twitter']['secret'])
 
     last_id = 0
 
     #first we get desired number (set by --count option) of tweets
-    tweets = get_tweets(searched_string, session, count=count, lang=lang)
+    tweets = api.get_tweets(searched_string, session, count=count, lang=lang)
 
     while True:
 
@@ -145,7 +113,7 @@ def twitter_wall(searched_string, config, count, interval, lang, clear,
             click.clear()
 
         #then we get any number of new tweets
-        tweets = get_tweets(
+        tweets = api.get_tweets(
             searched_string, session, since_id=last_id, lang=lang)
         time.sleep(interval)
 
