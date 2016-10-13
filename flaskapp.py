@@ -55,11 +55,12 @@ def colorize(tweet, hashtag_wrap, mention_wrap, url_wrap):
             entity['indices'][1] + shift):]
         shift = shift + len(styled_text) - (text_len)
 
-    return jinja2.Markup(text)
+    return text
  
 @app.template_filter('colorize')
 def colorize_html(tweet):
-    return colorize(tweet, hashtag_wrap, mention_wrap, url_wrap)
-
+    text = colorize(tweet, hashtag_wrap, mention_wrap, url_wrap)
+    return jinja2.Markup(text)
+    
 if __name__ == '__main__':
     app.run(debug=True)
