@@ -1,7 +1,7 @@
-from flask import Flask, render_template, request, escape
+from flask import Flask, render_template, request
 from twittersession import TwitterSession
 
-import jinja2
+from jinja2 import Markup
 
 app = Flask(__name__)
 #this could probably be elswhere
@@ -60,7 +60,7 @@ def colorize(tweet, hashtag_wrap, mention_wrap, url_wrap):
 @app.template_filter('colorize')
 def colorize_html(tweet):
     text = colorize(tweet, hashtag_wrap, mention_wrap, url_wrap)
-    return jinja2.Markup(text)
+    return Markup(text)
     
 if __name__ == '__main__':
     app.run(debug=True)
