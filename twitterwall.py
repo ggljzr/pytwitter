@@ -1,10 +1,8 @@
 import time
 import click
 
-import apiutils as api
-
-from flaskapp import app
-
+from flaskapp import app, session
+from twittersession import TwitterSession, DEFAULT_CONFIG
 
 def print_tweet(tweet):
     text = tweet['text']
@@ -66,7 +64,7 @@ def web():
     '--config',
     '-c',
     help='Path to custom config file',
-    default=api.DEFAULT_CONFIG)
+    default=DEFAULT_CONFIG)
 @click.option(
     '--count', '-n', help='Number of initialy displayed tweets', default=5)
 @click.option(
@@ -87,15 +85,12 @@ def web():
     '--retweets/--no-retweets', help='Show retweets in feed?', default=True)
 def console(searched_string, config, count, interval, lang, clear, retweets):
 
-    cfg = api.get_config(config_path=config)
-
-    session = api.twitter_session(cfg['twitter']['key'],
-                                  cfg['twitter']['secret'])
-
+    session = TwitterSession(config_path = config)
+    
     last_id = 0
 
     #first we get desired number (set by --count option) of tweets
-    tweets = api.get_tweets(searched_string, session, count=count, lang=lang)
+    tweets = session.get_tweets(searched_string, count=count, lang=lang)
 
     while True:
 
@@ -113,8 +108,8 @@ def console(searched_string, config, count, interval, lang, clear, retweets):
             click.clear()
 
         #then we get any number of new tweets
-        tweets = api.get_tweets(
-            searched_string, session, since_id=last_id, lang=lang)
+        tweets = session.get_tweets(
+            searched_string, since_id=last_id, lang=lang)
         time.sleep(interval)
 
 

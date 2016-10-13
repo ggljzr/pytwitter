@@ -1,14 +1,15 @@
 from flask import Flask, render_template
-
-import apiutils as api
+from twittersession import TwitterSession
 
 app = Flask(__name__)
+#this could probably be elswhere
+session = TwitterSession()
 
-cfg = api.get_config()
 
 @app.route('/')
 def hello():
     return render_template('index.html')
-        
+
+
 if __name__ == '__main__':
     app.run(debug=True)
