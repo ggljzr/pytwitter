@@ -1,32 +1,21 @@
 import time
 import click
 
-from flaskapp import app, session
+from flaskapp import app, session, colorize
 from twittersession import TwitterSession, DEFAULT_CONFIG
 
+def url_wrap(url):
+    return click.style(url['url'], underline=True, fg='yellow')
+
+def hashtag_wrap(hashtag):
+    return click.style('#' + hashtag['text'], fg='blue')
+
+def mention_wrap(mention):
+    return click.style('@' + mention['screen_name'], fg='cyan')
 
 def print_tweet(tweet):
-    text = tweet['text']
-
-    entities = tweet['entities']['hashtags'] + tweet['entities'][
-        'user_mentions']
-    entities.sort(key=lambda e: e['indices'][0])
-
-    shift = 0
-    for entity in entities:
-        text_len = 0
-        styled_text = None
-
-        if 'screen_name' in entity:
-            text_len = len(entity['screen_name'])
-            styled_text = click.style('@' + entity['screen_name'], fg='cyan')
-        else:
-            text_len = len(entity['text'])
-            styled_text = click.style('#' + entity['text'], fg='blue')
-
-        text = text[:(entity['indices'][0] + shift)] + styled_text + text[(
-            entity['indices'][1] + shift):]
-        shift = shift + len(styled_text) - (text_len + 1)
+ 
+    text = colorize(tweet, hashtag_wrap, mention_wrap, url_wrap)
 
     click.echo('------')
     click.secho('ID: {}'.format(tweet['id']), fg='green')

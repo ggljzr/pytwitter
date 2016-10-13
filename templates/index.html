@@ -1,4 +1,7 @@
 <!doctype html>
+
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+
 <title>twitter-wall</title>
 <h1>twitter-wall Web Frontend</h1>
 
@@ -9,7 +12,7 @@
         {{ tweet.user.name }} {{ tweet.user.screen_name }} {{ tweet.created_at }}
     </div>
     <div class='tweet_text'>
-        {{ tweet.text }}
+        {{ tweet | colorize | safe}}
     </div>
     <br>
     {% endfor %}

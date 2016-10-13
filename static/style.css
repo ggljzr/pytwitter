@@ -1,0 +1,7 @@
+a, h1, h2       { color: #377ba8; }
+
+div.tweet_text {background-color: #000000; color: #ffffff;}
+
+span.hashtag{color: #0000ff;}
+span.mention{color: #00ffff;}
+a {color: #ffff00; text-decoration: underline;}
