@@ -20,19 +20,19 @@ def display_tweets():
 
     return render_template('index.html', tweets=tweets['statuses'])
 
-def url_wrap(url):
+def html_url_wrap(url):
     return '<a href="{}">{}</a>'.format(url['expanded_url'],url['url'])
 
-def hashtag_wrap(hashtag):
+def html_hashtag_wrap(hashtag):
     return '<span class="hashtag">#{}</span>'.format(hashtag['text'])
 
-def mention_wrap(mention):
+def html_mention_wrap(mention):
     return '<span class="mention">@{}</span>'.format(mention['screen_name'])
 
 
 @app.template_filter('colorize')
 def colorize_html(tweet):
-    text = colorize(tweet, hashtag_wrap, mention_wrap, url_wrap)
+    text = colorize(tweet, html_hashtag_wrap, html_mention_wrap, html_url_wrap)
     return Markup(text)
     
 if __name__ == '__main__':
