@@ -4,6 +4,7 @@ import click
 from flaskapp import app, session
 from twittersession import TwitterSession, DEFAULT_CONFIG
 
+
 def print_tweet(tweet):
     text = tweet['text']
 
@@ -85,8 +86,8 @@ def web():
     '--retweets/--no-retweets', help='Show retweets in feed?', default=True)
 def console(searched_string, config, count, interval, lang, clear, retweets):
 
-    session = TwitterSession(config_path = config)
-    
+    session = TwitterSession(config_path=config)
+
     last_id = 0
 
     #first we get desired number (set by --count option) of tweets

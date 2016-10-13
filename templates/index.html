@@ -1,3 +1,21 @@
 <!doctype html>
-<title>Hello from Flask</title>
-<h1>Hello, World!</h1>
+<title>twitter-wall</title>
+<h1>twitter-wall Web Frontend</h1>
+
+{% if tweets %}
+    {% for tweet in tweets %}
+    <div class='tweet_header'>
+        <img src={{ tweet.user.profile_image_url }}>
+        {{ tweet.user.name }} {{ tweet.user.screen_name }} {{ tweet.created_at }}
+    </div>
+    <div class='tweet_text'>
+        {{ tweet.text }}
+    </div>
+    <br>
+    {% endfor %}
+{% endif %}
+
+<form action="/search/" method="get">
+      Query: <input type="text" name="query"><br>
+          <input type="submit" value="Submit">
+</form>
