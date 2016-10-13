@@ -1,38 +1,9 @@
 import time
 import click
 
-from flaskapp import app, session, colorize
+from flaskapp import app, session
+from utils import print_tweet, colorize
 from twittersession import TwitterSession, DEFAULT_CONFIG
-from jinja2 import Markup
-
-def url_wrap(url):
-    return click.style(url['url'], underline=True, fg='yellow')
-
-def hashtag_wrap(hashtag):
-    return click.style('#' + hashtag['text'], fg='blue')
-
-def mention_wrap(mention):
-    return click.style('@' + mention['screen_name'], fg='cyan')
-
-def print_tweet(tweet):
- 
-    text = colorize(tweet, hashtag_wrap, mention_wrap, url_wrap)
-    text = Markup.unescape(text)
-
-    click.echo('------')
-    click.secho('ID: {}'.format(tweet['id']), fg='green')
-    click.secho(tweet['user']['name'], fg='blue', bold=True, nl=False)
-    click.secho(
-        ' @{}'.format(tweet['user']['screen_name']),
-        fg='white',
-        bold=True,
-        nl=False)
-    click.secho(' {}'.format(tweet['created_at']), fg='magenta')
-    click.echo(text)
-    click.echo('Retweets: {}, Likes: {}'.format(tweet['retweet_count'], tweet[
-        'favorite_count']))
-
-    click.echo('------')
 
 
 @click.group()
