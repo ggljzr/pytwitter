@@ -18,10 +18,15 @@ def display_tweets():
     query = request.args.get('query')
     tweets = None
 
+    retweets = False
+
     if query:
         tweets = session.get_tweets(query)
 
-    return render_template('index.html', tweets=tweets, query=query)
+    if request.args.get('retweets'):
+        retweets = True
+
+    return render_template('index.html', tweets=tweets, query=query, retweets=retweets)
 
 def html_url_wrap(url):
     return '<a href="{}">{}</a>'.format(url['expanded_url'],url['url'])

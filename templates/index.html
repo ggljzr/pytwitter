@@ -11,6 +11,7 @@
     <form action="/search/" method="get">
         Query: <input type="text" name="query" {%if query %}value={{ query }} {% endif %}>
               <input type="submit" value="Submit" class='button'>
+        Ignore retweets: <input type="checkbox" name="retweets">
     </form>
 
     {% if query %}
@@ -20,6 +21,7 @@
     {% if tweets %}
     <div class='tweets'>
         {% for tweet in tweets %}
+        {% if retweets or not tweet.retweeted_status %}
         <div class='tweet'>
             <div class='tweet_header'>
                 <img src={{ tweet.user.profile_image_url }}>
@@ -40,6 +42,7 @@
                 {% endfor %}
             </div>
         </div>
+        {% endif %}
         {% endfor %}
     <div>
     {% endif %}
