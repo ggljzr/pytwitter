@@ -1,44 +1,53 @@
 <!doctype html>
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <title>twitter-wall</title>
 
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <script>
+       function open_tweet(screen_name, tweet_id)
+        {
+           window.open('https://twitter.com/' + screen_name + '/status/' + tweet_id, '_blank')  
+        } 
+    </script>
+</head>
 
-<title>twitter-wall</title>
-<h1>twitter-wall Web Frontend</h1>
+<body>
+    <h1>twitter-wall Web Frontend</h1>
 
-<form action="/search/" method="get">
-    Query: <input type="text" name="query" {%if query %}value={{ query }} {% endif %}>
-          <input type="submit" value="Submit" class='button'>
+    <form action="/search/" method="get">
+        Query: <input type="text" name="query" {%if query %}value={{ query }} {% endif %}>
+              <input type="submit" value="Submit" class='button'>
 
-</form>
+    </form>
 
-{% if query %}
-<h2>Searched for {{ query }}: </h2>
-{% endif %}
+    {% if query %}
+    <h2>Searched for {{ query }}: </h2>
+    {% endif %}
 
-{% if tweets %}
-<div class='tweets'>
-    {% for tweet in tweets %}
-    <div class='tweet'>
-        <div class='tweet_header'>
-            <img src={{ tweet.user.profile_image_url }}>
-            <span class='user_name'>{{ tweet.user.name }}</span> 
-            <a href='https://twitter.com/{{ tweet.user.screen_name }}' class='screen_name'>@{{ tweet.user.screen_name }}</a> 
-            <span class='created_at'>{{ tweet.created_at | time}}</span>
-        </div>
-        <div class='tweet_text'>
-            {{ tweet | colorize | safe}}
-        </div>
-
-        <div class='tweet_media'>
-            {% for medium in tweet.entities.media %}
-            <div class='tweet_medium'>
-            <img src={{ medium.media_url_https }} >
+    {% if tweets %}
+    <div class='tweets'>
+        {% for tweet in tweets %}
+        <div class='tweet' onclick='open_tweet("{{ tweet.user.screen_name }}", "{{ tweet.id_str }}");'>
+            <div class='tweet_header'>
+                <img src={{ tweet.user.profile_image_url }}>
+                <span class='user_name'>{{ tweet.user.name }}</span> 
+                <a href='https://twitter.com/{{ tweet.user.screen_name }}' target='_blank' class='screen_name'>@{{ tweet.user.screen_name }}</a> 
+                <span class='created_at'>{{ tweet.created_at | time}}</span>
             </div>
-            {% endfor %}
+            <div class='tweet_text'>
+                {{ tweet | colorize | safe}}
+            </div>
+
+            <div class='tweet_media'>
+                {% for medium in tweet.entities.media %}
+                <div class='tweet_medium'>
+                <img src={{ medium.media_url_https }} >
+                </div>
+                {% endfor %}
+            </div>
         </div>
-    </div>
-    {% endfor %}
-<div>
-{% endif %}
+        {% endfor %}
+    <div>
+    {% endif %}
 
-
+</body>
