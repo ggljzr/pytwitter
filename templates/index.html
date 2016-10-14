@@ -3,12 +3,6 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
     <title>twitter-wall</title>
 
-    <script>
-       function open_tweet(screen_name, tweet_id)
-        {
-           window.open('https://twitter.com/' + screen_name + '/status/' + tweet_id, '_blank')  
-        } 
-    </script>
 </head>
 
 <body>
@@ -17,7 +11,6 @@
     <form action="/search/" method="get">
         Query: <input type="text" name="query" {%if query %}value={{ query }} {% endif %}>
               <input type="submit" value="Submit" class='button'>
-
     </form>
 
     {% if query %}
@@ -27,12 +20,13 @@
     {% if tweets %}
     <div class='tweets'>
         {% for tweet in tweets %}
-        <div class='tweet' onclick='open_tweet("{{ tweet.user.screen_name }}", "{{ tweet.id_str }}");'>
+        <div class='tweet'>
             <div class='tweet_header'>
                 <img src={{ tweet.user.profile_image_url }}>
                 <span class='user_name'>{{ tweet.user.name }}</span> 
                 <a href='https://twitter.com/{{ tweet.user.screen_name }}' target='_blank' class='screen_name'>@{{ tweet.user.screen_name }}</a> 
                 <span class='created_at'>{{ tweet.created_at | time}}</span>
+                <a href='https://twitter.com/{{ tweet.user.screen_name }}/status/{{ tweet.id_str }}' class='tweet_link'>Link</a>
             </div>
             <div class='tweet_text'>
                 {{ tweet | colorize | safe}}
