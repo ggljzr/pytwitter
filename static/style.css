@@ -19,9 +19,9 @@ div.tweet_media {margin-top: 10px;}
 .hashtag{color: #61878B;}
 .mention{color: #679787;}
 
-span.user_name{color: #61878B; text-decoration: bold;}
-span.screen_name{color: #545454; text-decoration: bold;}
-span.created_at{color: #955252;}
+.user_name{color: #61878B; text-decoration: bold;}
+.screen_name{color: #545454; text-decoration: bold;}
+.created_at{color: #955252;}
 
 a {color: #C49D4E; text-decoration: underline;}
 

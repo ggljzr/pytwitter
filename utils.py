@@ -1,14 +1,25 @@
+from datetime import datetime
+
 import click
 from jinja2 import Markup
+
+
+def time_filter(time):
+    dt = datetime.strptime(time, '%a %b %d %H:%M:%S %z %Y')
+    return dt.strftime('%H:%M:%S %d/%m/%Y')
+
 
 def url_wrap(url):
     return click.style(url['url'], underline=True, fg='yellow')
 
+
 def hashtag_wrap(hashtag):
     return click.style('#' + hashtag['text'], fg='blue')
 
+
 def mention_wrap(mention):
     return click.style('@' + mention['screen_name'], fg='cyan')
+
 
 def colorize(tweet, hashtag_wrap, mention_wrap, url_wrap):
 
@@ -38,12 +49,13 @@ def colorize(tweet, hashtag_wrap, mention_wrap, url_wrap):
         shift = shift + len(styled_text) - (text_len)
 
     return text
- 
+
 
 def print_tweet(tweet):
- 
+
     text = colorize(tweet, hashtag_wrap, mention_wrap, url_wrap)
     text = Markup.unescape(text)
+    created_at = time_filter(tweet['created_at'])
 
     click.echo('------')
     click.secho('ID: {}'.format(tweet['id']), fg='green')
@@ -53,11 +65,9 @@ def print_tweet(tweet):
         fg='white',
         bold=True,
         nl=False)
-    click.secho(' {}'.format(tweet['created_at']), fg='magenta')
+    click.secho(' {}'.format(created_at), fg='magenta')
     click.echo(text)
     click.echo('Retweets: {}, Likes: {}'.format(tweet['retweet_count'], tweet[
         'favorite_count']))
 
     click.echo('------')
-
-

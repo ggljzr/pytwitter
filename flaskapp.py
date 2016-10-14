@@ -2,7 +2,7 @@ from flask import Flask, render_template, request
 from twittersession import TwitterSession
 
 from jinja2 import Markup
-from utils import colorize
+from utils import colorize, time_filter
 
 app = Flask(__name__)
 #this could probably be elswhere
@@ -37,6 +37,10 @@ def html_mention_wrap(mention):
 def colorize_html(tweet):
     text = colorize(tweet, html_hashtag_wrap, html_mention_wrap, html_url_wrap)
     return Markup(text)
-    
+
+@app.template_filter('time')
+def time_filter_html(time):
+    return time_filter(time)
+
 if __name__ == '__main__':
     app.run(debug=True)
