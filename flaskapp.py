@@ -21,7 +21,7 @@ def display_tweets():
     if query:
         tweets = session.get_tweets(query)
 
-    return render_template('index.html', tweets=tweets)
+    return render_template('index.html', tweets=tweets, query=query)
 
 def html_url_wrap(url):
     return '<a href="{}">{}</a>'.format(url['expanded_url'],url['url'])

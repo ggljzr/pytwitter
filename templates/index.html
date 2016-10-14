@@ -5,20 +5,40 @@
 <title>twitter-wall</title>
 <h1>twitter-wall Web Frontend</h1>
 
-{% if tweets %}
-    {% for tweet in tweets %}
-    <div class='tweet_header'>
-        <img src={{ tweet.user.profile_image_url }}>
-        {{ tweet.user.name }} {{ tweet.user.screen_name }} {{ tweet.created_at }}
-    </div>
-    <div class='tweet_text'>
-        {{ tweet | colorize | safe}}
-    </div>
-    <br>
-    {% endfor %}
+<form action="/search/" method="get">
+    Query: <input type="text" name="query" value={{ query }}>
+          <input type="submit" value="Submit" class='button'>
+
+</form>
+
+{% if query %}
+<h2>Searched for {{ query }}: </h2>
 {% endif %}
 
-<form action="/search/" method="get">
-      Query: <input type="text" name="query"><br>
-          <input type="submit" value="Submit">
-</form>
+{% if tweets %}
+<div class='tweets'>
+    {% for tweet in tweets %}
+    <div class='tweet'>
+        <div class='tweet_header'>
+            <img src={{ tweet.user.profile_image_url }}>
+            <span class='user_name'>{{ tweet.user.name }}</span> 
+            <span class='screen_name'>@{{ tweet.user.screen_name }}</span> 
+            <span class='created_at'>{{ tweet.created_at }}</span>
+        </div>
+        <div class='tweet_text'>
+            {{ tweet | colorize | safe}}
+        </div>
+
+        <div class='tweet_media'>
+            {% for medium in tweet.entities.media %}
+            <div class='tweet_medium'>
+            <img src={{ medium.media_url_https }} >
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+<div>
+{% endif %}
+
+

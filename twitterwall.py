@@ -19,6 +19,7 @@ def web():
     '''
 
     from flaskapp import app, session
+    app.config['TEMPLATES_AUTO_RELOAD'] = True
     app.run(debug=True)
 
 
