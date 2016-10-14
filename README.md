@@ -1,5 +1,5 @@
 # twitter-wall
-Simple application for displaying tweets containing string given by parameter. In console mode application fetches desired number of tweets and then periodicaly checks for any new tweets. In web mode it runs a web frontend writen in Flask. 
+Simple application for displaying tweets containing string given by parameter. In console mode application fetches desired number of tweets and then periodicaly checks for any new tweets. In web mode it runs a web frontend writen in Flask. Frontend is live at http://ggljzr.pythonanvwhere.com.
 
 Application was created as part of Python course (https://github.com/cvut/MI-PYT, in Czech).
 
