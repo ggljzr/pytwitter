@@ -39,5 +39,9 @@ Runs Flask embedded web server in debug mode. Web frontend will be available on 
 Frontend itself just displays tweets fetched by [GET search/tweets](https://dev.twitter.com/rest/reference/get/search/tweets) Twitter API call. Query can be submitted via URL:
 
 ```
+#fetches tweets with 'python' without retweets
 http://localhost:5000/search/?query=python
+
+#fetches tweets with 'python', with retweets
+http://localhost:5000/search/?query=python&retweets=on
 ```
