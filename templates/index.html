@@ -6,7 +6,7 @@
 <h1>twitter-wall Web Frontend</h1>
 
 <form action="/search/" method="get">
-    Query: <input type="text" name="query" value={{ query }}>
+    Query: <input type="text" name="query" {%if query %}value={{ query }} {% endif %}>
           <input type="submit" value="Submit" class='button'>
 
 </form>

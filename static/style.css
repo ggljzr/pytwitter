@@ -13,7 +13,7 @@ div.tweet {background-color: #f0f0f0;
 div.tweet:hover{background-color: #e9e9e9;}
 
 div.tweet_header {margin-bottom: 10px}
-div.tweet_text {background-color: #fff; padding: 15px}
+div.tweet_text {background-color: #fff; padding: 15px; border-style:solid;border-width: 1px; border-color: #CCC;}
 div.tweet_media {margin-top: 10px;}
 
 span.hashtag{color: #61878B;}
