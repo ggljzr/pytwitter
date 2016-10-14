@@ -1,7 +1,6 @@
 import time
 import click
 
-from flaskapp import app, session
 from utils import print_tweet, colorize
 from twittersession import TwitterSession, DEFAULT_CONFIG
 
@@ -18,6 +17,8 @@ def web():
     This is for debugging purposes only!
     For production use interface like wsgi to serve app with normal web server (like nginx)
     '''
+
+    from flaskapp import app, session
     app.run(debug=True)
 
 
