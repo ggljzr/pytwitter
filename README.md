@@ -34,6 +34,10 @@ python3 twitterwall.py console '#python'
 python3 twitterwall.py web
 ```
 
-Runs Flask embedded web server in debug mode. Web frontend will be available on localhost:5000. Note that this should be used only for debugging purposes. When deploying in production you should use webserver like nginx or Apache and gateway interface like wsgi to serve the app.
+Runs Flask embedded web server in debug mode. Web frontend will be available on [localhost:5000](http://localhost:5000). Note that this should be used only for debugging purposes. When deploying in production you should use webserver like nginx or Apache and gateway interface like wsgi to serve the app.
 
-Frontend itself just displays tweets fetched by [GET search/tweets](https://dev.twitter.com/rest/reference/get/search/tweets) Twitter API call.
+Frontend itself just displays tweets fetched by [GET search/tweets](https://dev.twitter.com/rest/reference/get/search/tweets) Twitter API call. Query can be submitted via URL:
+
+```
+http://localhost:5000/search/?query=python
+```
