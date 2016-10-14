@@ -26,7 +26,7 @@ def display_tweets():
     if request.args.get('retweets'):
         retweets = True
 
-    if retweets == False:
+    if retweets == False and tweets:
         tweets = [tweet for tweet in tweets if 'retweeted_status' not in tweet]
 
     return render_template('index.html', tweets=tweets, query=query, retweets=retweets)
