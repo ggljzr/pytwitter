@@ -7,6 +7,7 @@ Application was created as part of Python course (https://github.com/cvut/MI-PYT
 * Python3
 * click
 * requests
+* Flask
 
 ##Usage
 
