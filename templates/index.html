@@ -21,7 +21,6 @@
     {% if tweets %}
     <div class='tweets'>
         {% for tweet in tweets %}
-        {% if retweets or not tweet.retweeted_status %}
         <div class='tweet'>
             <div class='tweet_header'>
                 <img src={{ tweet.user.profile_image_url }}>
@@ -42,7 +41,6 @@
                 {% endfor %}
             </div>
         </div>
-        {% endif %}
         {% endfor %}
     <div>
     {% else %}

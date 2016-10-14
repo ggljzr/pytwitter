@@ -11,7 +11,7 @@ session = TwitterSession()
 
 @app.route('/')
 def hello():
-    return render_template('index.html', tweets=None)
+    return render_template('index.html', tweets=None, retweets=True)
 
 @app.route('/search/')
 def display_tweets():   
@@ -21,10 +21,13 @@ def display_tweets():
     retweets = False
 
     if query:
-        tweets = session.get_tweets(query)
+        tweets = session.get_tweets(query, count=25)
 
     if request.args.get('retweets'):
         retweets = True
+
+    if retweets == False:
+        tweets = [tweet for tweet in tweets if 'retweeted_status' not in tweet]
 
     return render_template('index.html', tweets=tweets, query=query, retweets=retweets)
 
