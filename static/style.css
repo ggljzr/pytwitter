@@ -1,8 +1,10 @@
 h1, h2       { color: #61878B; }
-
+h2.warn {color: #955252;}
 
 div.tweets          { margin: 2em auto; width: 80em; border: none;
                   padding: 0.8em; background: white; }
+
+div.no_tweets {width: 20em; margin: 2em auto;}
 
 div.tweet {background-color: #f0f0f0; 
            color: #545454; 
