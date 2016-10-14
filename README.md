@@ -45,3 +45,4 @@ http://localhost:5000/search/?query=python
 #fetches tweets with 'python', with retweets
 http://localhost:5000/search/?query=python&retweets=on
 ```
+
