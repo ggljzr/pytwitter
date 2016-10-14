@@ -23,7 +23,7 @@
         {% for tweet in tweets %}
         <div class='tweet'>
             <div class='tweet_header'>
-                <img src={{ tweet.user.profile_image_url }}>
+                <img src='{{ tweet.user.profile_image_url }}'>
                 <span class='user_name'>{{ tweet.user.name }}</span> 
                 <a href='https://twitter.com/{{ tweet.user.screen_name }}' target='_blank' class='screen_name'>@{{ tweet.user.screen_name }}</a> 
                 <span class='created_at'>{{ tweet.created_at | time}}</span>
@@ -36,7 +36,7 @@
             <div class='tweet_media'>
                 {% for medium in tweet.entities.media %}
                 <div class='tweet_medium'>
-                <img src={{ medium.media_url_https }} >
+                <img src='{{ medium.media_url_https }}' >
                 </div>
                 {% endfor %}
             </div>
