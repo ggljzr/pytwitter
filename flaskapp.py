@@ -27,10 +27,10 @@ def html_url_wrap(url):
     return '<a href="{}">{}</a>'.format(url['expanded_url'],url['url'])
 
 def html_hashtag_wrap(hashtag):
-    return '<span class="hashtag">#{}</span>'.format(hashtag['text'])
+    return '<a href="/search/?query=%23{}" class="hashtag">#{}</a>'.format(hashtag['text'], hashtag['text'])
 
 def html_mention_wrap(mention):
-    return '<span class="mention">@{}</span>'.format(mention['screen_name'])
+    return '<a href="https://twitter.com/{}" target="_blank" class="mention">@{}</a>'.format(mention['screen_name'], mention['screen_name'])
 
 
 @app.template_filter('colorize')
