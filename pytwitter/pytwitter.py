@@ -77,6 +77,5 @@ def console(searched_string, config, count, interval, lang, clear, retweets):
             searched_string, since_id=last_id, lang=lang)
         time.sleep(interval)
 
-
-if __name__ == '__main__':
+def main():
     twitter_wall()
