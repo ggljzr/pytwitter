@@ -1,12 +1,12 @@
 <!doctype html>
 <head>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
-    <title>twitter-wall</title>
+    <title>pytwitter</title>
 
 </head>
 
 <body>
-    <h1>twitter-wall Web Frontend</h1>
+    <h1>pytwitter Web Frontend</h1>
 
     <form action="/search/" method="get">
         Query: <input type="text" name="query" {%if query %}value='{{ query }}'{% endif %}>
