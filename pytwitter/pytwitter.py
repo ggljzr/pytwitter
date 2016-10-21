@@ -11,7 +11,12 @@ def twitter_wall():
 
 
 @twitter_wall.command()
-def web():
+@click.option(
+    '--config',
+    '-c',
+    help='Path to custom config file',
+    default=DEFAULT_CONFIG)
+def web(config):
     '''
     Runs embedded Flask webserver in debug mode
     This is for debugging purposes only!
@@ -19,6 +24,10 @@ def web():
     '''
 
     from .flaskapp import app, session
+    
+    if config != DEFAULT_CONFIG:
+        session = TwitterSession(config_path=config)
+
     app.config['TEMPLATES_AUTO_RELOAD'] = True
     app.run(debug=True)
 
@@ -77,6 +86,6 @@ def console(searched_string, config, count, interval, lang, clear, retweets):
             searched_string, since_id=last_id, lang=lang)
         time.sleep(interval)
 
+
 def main():
     twitter_wall()
-
