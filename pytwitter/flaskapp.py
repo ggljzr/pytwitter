@@ -1,8 +1,9 @@
 from flask import Flask, render_template, request
-from twittersession import TwitterSession
 
 from jinja2 import Markup
-from utils import colorize, time_filter
+
+from .utils import colorize, time_filter
+from .twittersession import TwitterSession
 
 app = Flask(__name__)
 #this could probably be elswhere
@@ -50,5 +51,3 @@ def colorize_html(tweet):
 def time_filter_html(time):
     return time_filter(time)
 
-if __name__ == '__main__':
-    app.run(debug=True)

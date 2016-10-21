@@ -1,8 +1,8 @@
 import time
 import click
 
-from utils import print_tweet, colorize
-from twittersession import TwitterSession, DEFAULT_CONFIG
+from .utils import print_tweet, colorize
+from .twittersession import TwitterSession, DEFAULT_CONFIG
 
 
 @click.group()
@@ -18,7 +18,7 @@ def web():
     For production use interface like wsgi to serve app with normal web server (like nginx)
     '''
 
-    from flaskapp import app, session
+    from .flaskapp import app, session
     app.config['TEMPLATES_AUTO_RELOAD'] = True
     app.run(debug=True)
 
@@ -79,3 +79,4 @@ def console(searched_string, config, count, interval, lang, clear, retweets):
 
 def main():
     twitter_wall()
+

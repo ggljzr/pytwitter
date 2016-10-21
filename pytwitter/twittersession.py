@@ -1,9 +1,12 @@
 import configparser
 import base64
+import sys
+
+from os.path import expanduser
 
 import requests
 
-DEFAULT_CONFIG = 'config.ini'
+DEFAULT_CONFIG = '{}/.config/pytwitter/config.ini'.format(expanduser('~'))
 
 
 class TwitterSession:
@@ -43,8 +46,22 @@ class TwitterSession:
 
     def __init__(self, config_path=DEFAULT_CONFIG):
         cfg = TwitterSession.parse_config(config_path)
+       
+        try:
+            key = cfg['twitter']['key']
+            secret = cfg['twitter']['secret']
+        except KeyError:
+            print('Config file is missing or containing errors.')
+            if config_path == DEFAULT_CONFIG:
+                print('Default config file should be placed in ~/.config/pytwitter/config.ini.')
+                print('Alternativly you could use -c/--config option to specify custom config file.')
+
+            print('\nFor correct config file format check out config.ini.example and README')
+            print('Exiting...')
+            sys.exit()
+
         self.session = TwitterSession.create_twitter_session(
-            cfg['twitter']['key'], cfg['twitter']['secret'])
+            key, secret)
 
     #count = 15 is to mimic default GET search/tweets behaviour
     def get_tweets(self, search, count=15, since_id=0, lang=None):

@@ -14,6 +14,8 @@ setup(
     license='MIT',
     url='https://github.com/ggljzr/pytwitter',
     packages=find_packages(),
+    include_package_data=True,
+    zip_safe=False,
     classifiers=[
         'Intended Audience :: End Users/Desktop',
         'License :: OSI Approved :: MIT License',
@@ -27,4 +29,11 @@ setup(
     entry_points={
         'console_scripts': ['pytwitter = pytwitter.pytwitter:main', ],
     },
-)
+    install_requires['Flask>=0.11.1', 
+                     'click>=6.6', 
+                     'Jinja2>=2.8',
+                     'MarkupSafe>=0.23', 
+                     'requests>=2.11.1',
+                     'Werkzeug>=0.11.11',
+                     ]
+    )

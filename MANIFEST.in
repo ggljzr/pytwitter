@@ -1,1 +1,5 @@
 include LICENSE
+include config.ini.example
+
+recursive-include pytwitter/templates *
+recursive-include pytwitter/static *
