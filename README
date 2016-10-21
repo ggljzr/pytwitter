@@ -3,6 +3,9 @@ Simple application for displaying tweets containing string given by parameter. I
 
 Application was created as part of Python course (https://github.com/cvut/MI-PYT, in Czech).
 
+Link to PyPi(testing) package: https://testpypi.python.org/pypi/pytwitter.
+
+
 ## Requirements
 * Python3
 * click
