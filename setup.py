@@ -5,7 +5,7 @@ with open('README') as f:
 
 setup(
     name='pytwitter',
-    version='0.3.2',
+    version='0.3.3',
     description='Finds and displays tweets either in terminal on via web frontend',
     long_description=long_description,
     author='Ondřej Červenka',
@@ -30,7 +30,7 @@ setup(
     entry_points={
         'console_scripts': ['pytwitter = pytwitter.pytwitter:main', ],
     },
-    install_requires=['Flask>=0.11.1', 
+    install_requires=['Flask>0.10.0', 
                      'click>=6.6', 
                      'Jinja2>=2.8',
                      'MarkupSafe>=0.23', 
