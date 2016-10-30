@@ -7,7 +7,7 @@ from .twittersession import TwitterSession
 
 app = Flask(__name__)
 #this could probably be elswhere
-session = TwitterSession()
+session = TwitterSession.init_from_file()
 
 
 @app.route('/')

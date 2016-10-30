@@ -11,8 +11,8 @@ DEFAULT_CONFIG = '{}/.config/pytwitter/config.ini'.format(expanduser('~'))
 
 class TwitterSession:
     @staticmethod
-    def create_twitter_session(api_key, api_secret):
-        session = requests.Session()
+    def create_twitter_session(api_key, api_secret, session=None):
+        session = session or requests.Session()
         secret = '{}:{}'.format(api_key, api_secret)
         secret64 = base64.b64encode(secret.encode('ascii')).decode('ascii')
 
@@ -38,30 +38,34 @@ class TwitterSession:
         return session
 
     @staticmethod
-    def parse_config(config_path):
-        config_file = configparser.ConfigParser()
-        config_file.read(config_path)
+    def parse_config(config_path=DEFAULT_CONFIG):
+        cfg = configparser.ConfigParser()
+        cfg.read(config_path)
 
-        return config_file
-
-    def __init__(self, config_path=DEFAULT_CONFIG):
-        cfg = TwitterSession.parse_config(config_path)
-       
         try:
             key = cfg['twitter']['key']
             secret = cfg['twitter']['secret']
-        except KeyError:
+        except KeyError as e:
             print('Config file is missing or containing errors.')
             if config_path == DEFAULT_CONFIG:
                 print('Default config file should be placed in ~/.config/pytwitter/config.ini.')
                 print('Alternativly you could use -c/--config option to specify custom config file.')
 
             print('\nFor correct config file format check out config.ini.example and README')
-            print('Exiting...')
-            sys.exit()
+            print('\nException: ')
+            raise e
 
+        return {'key' : key, 'secret' : secret}
+
+    def __init__(self, key, secret, session=None):
         self.session = TwitterSession.create_twitter_session(
-            key, secret)
+            key, secret, session)
+
+    @classmethod
+    def init_from_file(cls, config_path=DEFAULT_CONFIG):
+        cfg = TwitterSession.parse_config(config_path)
+        return cls(key=cfg['key'], secret=cfg['secret'])
+
 
     #count = 15 is to mimic default GET search/tweets behaviour
     def get_tweets(self, search, count=15, since_id=0, lang=None):

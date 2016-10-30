@@ -26,7 +26,7 @@ def web(config):
     from .flaskapp import app, session
     
     if config != DEFAULT_CONFIG:
-        session = TwitterSession(config_path=config)
+        session = TwitterSession.init_from_file(config_path=config)
 
     app.config['TEMPLATES_AUTO_RELOAD'] = True
     app.run(debug=True)
@@ -59,7 +59,7 @@ def web(config):
     '--retweets/--no-retweets', help='Show retweets in feed?', default=True)
 def console(searched_string, config, count, interval, lang, clear, retweets):
 
-    session = TwitterSession(config_path=config)
+    session = TwitterSession.init_from_file(config_path=config)
 
     last_id = 0
 
