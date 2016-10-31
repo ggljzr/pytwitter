@@ -3,12 +3,8 @@ from flask import Flask, render_template, request
 from jinja2 import Markup
 
 from .utils import colorize, time_filter
-from .twittersession import TwitterSession
 
 app = Flask(__name__)
-#this could probably be elswhere
-session = TwitterSession.init_from_file()
-
 
 @app.route('/')
 def hello():
@@ -22,7 +18,7 @@ def display_tweets():
     retweets = False
 
     if query:
-        tweets = session.get_tweets(query, count=25)
+        tweets = app.session.get_tweets(query, count=25)
 
     if request.args.get('retweets'):
         retweets = True

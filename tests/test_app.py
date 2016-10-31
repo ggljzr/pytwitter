@@ -38,14 +38,12 @@ with betamax.Betamax.configure() as config:
 
 @pytest.fixture
 def client(betamax_session):
-    key = AUTH['key']
-    secret = AUTH['secret']
-    return TwitterSession(key=key, secret=secret, session=betamax_session)
+    return TwitterSession(key=AUTH['key'], secret=AUTH['secret'], session=betamax_session)
 
 @pytest.fixture
-def testapp():
-    from pytwitter.flaskapp import app, session
-    session = client
+def testapp(betamax_session):
+    from pytwitter.flaskapp import app
+    app.session = TwitterSession(key=AUTH['key'], secret=AUTH['secret'], session=betamax_session)
     app.config['testing'] = True
     return app.test_client()
 

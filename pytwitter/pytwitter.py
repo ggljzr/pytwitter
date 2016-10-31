@@ -23,10 +23,9 @@ def web(config):
     For production use interface like wsgi to serve app with normal web server (like nginx)
     '''
 
-    from .flaskapp import app, session
+    from .flaskapp import app
     
-    if config != DEFAULT_CONFIG:
-        session = TwitterSession.init_from_file(config_path=config)
+    app.session = TwitterSession.init_from_file(config_path=config)
 
     app.config['TEMPLATES_AUTO_RELOAD'] = True
     app.run(debug=True)

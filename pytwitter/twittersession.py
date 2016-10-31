@@ -62,7 +62,7 @@ class TwitterSession:
             key, secret, session)
 
     @classmethod
-    def init_from_file(cls, config_path=DEFAULT_CONFIG):
+    def init_from_file(cls, config_path=DEFAULT_CONFIG, session=None):
         cfg = TwitterSession.parse_config(config_path)
         return cls(key=cfg['key'], secret=cfg['secret'])
 
