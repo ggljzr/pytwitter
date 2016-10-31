@@ -2,7 +2,7 @@ from flask import Flask, render_template, request
 
 from jinja2 import Markup
 
-from .utils import colorize, time_filter
+from pytwitter.utils import colorize, time_filter
 
 app = Flask(__name__)
 
