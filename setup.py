@@ -36,5 +36,12 @@ setup(
                      'MarkupSafe>=0.23', 
                      'requests>=2.11.1',
                      'Werkzeug>=0.11.11',
-                     ]
+                     ],
+    setup_requires=[
+        'pytest-runner',
+        ],
+    tests_require=[
+        'pytest',
+        'betamax',
+        ],
     )
