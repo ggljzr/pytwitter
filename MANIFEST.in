@@ -4,5 +4,5 @@ include config.ini.example
 recursive-include pytwitter/templates *
 recursive-include pytwitter/static *
 
-include tests/test_app.py
 recursive-include tests/cassettes *
+include tests/ *.py

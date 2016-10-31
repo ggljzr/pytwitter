@@ -5,7 +5,7 @@ with open('README') as f:
 
 setup(
     name='pytwitter',
-    version='0.3.3',
+    version='0.4.0',
     description='Finds and displays tweets either in terminal on via web frontend',
     long_description=long_description,
     author='Ondřej Červenka',
