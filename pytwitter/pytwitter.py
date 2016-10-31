@@ -1,8 +1,8 @@
 import time
 import click
 
-from pytwitter.utils import print_tweet, colorize
-from pytwitter.twittersession import TwitterSession, DEFAULT_CONFIG
+from .utils import print_tweet, colorize
+from .twittersession import TwitterSession, DEFAULT_CONFIG
 
 
 @click.group()
