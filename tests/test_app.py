@@ -42,6 +42,12 @@ def client(betamax_session):
     secret = AUTH['secret']
     return TwitterSession(key=key, secret=secret, session=betamax_session)
 
+@pytest.fixture
+def testapp():
+    from pytwitter.flaskapp import app, session
+    session = client
+    app.config['testing'] = True
+    return app.test_client()
 
 def test_config_error():
     with pytest.raises(KeyError) as e:
@@ -49,5 +55,16 @@ def test_config_error():
 
 
 def test_get_tweets(client):
-    tweets = client.get_tweets('#harambe')
-    assert '#harambe' in tweets[0]['text'].lower()
+    tweets = client.get_tweets('#python', count=1)
+    assert len(tweets) == 1
+    assert '#python' in tweets[0]['text'].lower()
+
+
+def test_index(testapp):
+    assert 'pytwitter' in testapp.get('/').data.decode('utf-8')
+
+def test_tweets(testapp):
+    assert '#python' in testapp.get('/search/?query=%23python&retweets=on').data.decode('utf-8')
+
+def test_empty_query(testapp):
+    assert 'No tweets' in testapp.get('/search/?query=').data.decode('utf-8')
