@@ -41,8 +41,10 @@ with betamax.Betamax.configure() as config:
     config.cassette_library_dir = 'tests/cassettes'
     config.before_record(callback=replace_tokens)
 
+
 @pytest.fixture
 def client(betamax_session):
+    betamax_session.headers.update({'Accept-Encoding': 'identity'})
     return TwitterSession(
         key=AUTH['key'], secret=AUTH['secret'], session=betamax_session)
 
@@ -50,6 +52,7 @@ def client(betamax_session):
 @pytest.fixture
 def testapp(betamax_session):
     from pytwitter.flaskapp import app
+    betamax_session.headers.update({'Accept-Encoding': 'identity'})
     app.session = TwitterSession(
         key=AUTH['key'], secret=AUTH['secret'], session=betamax_session)
     app.config['testing'] = True
@@ -61,11 +64,11 @@ def test_config_error():
         TwitterSession.parse_config('/some/fake/config')
 
 
-@pytest.mark.parametrize('tweet_num', [1, 15, 25])
+@pytest.mark.parametrize('tweet_num', [1, 15, 20])
 def test_get_tweets(client, tweet_num):
-    tweets = client.get_tweets('python', count=tweet_num)
+    tweets = client.get_tweets('#python', count=tweet_num)
     assert len(tweets) == tweet_num
-    assert 'python' in tweets[0]['text'].lower()
+    assert '#python' in tweets[0]['text'].lower()
 
 
 def test_index(testapp):
