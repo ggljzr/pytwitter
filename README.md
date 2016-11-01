@@ -79,7 +79,7 @@ pytest tests #note this is the only way to pass arguments to tests
 ```
 Application package also contains set of recorded [Betamax](http://betamax.readthedocs.io/en/latest/index.html) sessions, so you run test even without having registered Twitter account, or internet connection.
 
-If you want to record your own sessions, you have to create a config.ini file, as described [here](##Usage) and create `AUTH_FILE` environment variable:
+If you want to record your own sessions, you have to create a config.ini file, as described [here](#usage) and create `AUTH_FILE` environment variable:
 ```
 export AUTH_FILE='/path/to/your/config.ini'
 ```
