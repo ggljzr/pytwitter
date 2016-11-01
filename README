@@ -69,3 +69,28 @@ http://localhost:5000/search/?query=python
 http://localhost:5000/search/?query=python&retweets=on
 ```
 
+##Tests
+
+Application is distributed with a set of unit tests. You can run tests with following commands:
+```
+python3 setup.py test
+#or if you have already installed pytest
+pytest tests #note this is the only way to pass arguments to tests
+```
+Application package also contains set of recorded [Betamax](http://betamax.readthedocs.io/en/latest/index.html) sessions, so you run test even without having registered Twitter account, or internet connection.
+
+If you want to record your own sessions, you have to create a config.ini file, as described [here](#usage) and create `AUTH_FILE` environment variable:
+```
+export AUTH_FILE='/path/to/your/config.ini'
+```
+Then you call tests with `pytest` and `--record` option:
+```
+pytest tests --record
+```
+
+###Test requirements
+
+* pytest
+* betamax
+
+These should be collected automatically when running `python3 setup.py test`

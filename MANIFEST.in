@@ -5,4 +5,4 @@ recursive-include pytwitter/templates *
 recursive-include pytwitter/static *
 
 recursive-include tests/cassettes *
-include tests/ *.py
+include tests/conftest.py
