@@ -5,24 +5,48 @@ from jinja2 import Markup
 
 
 def time_filter(time):
+    """Function to filter Twitter time format.
+       It just calls ``datetime`` ``strptime`` and ``strftime``
+       functions to get desired format.
+
+       Input format -- ``%a %b %d %H:%M:%S %z %Y``
+       Output format -- ``%H:%M:%S %d/%m/%Y``
+    """
     dt = datetime.strptime(time, '%a %b %d %H:%M:%S %z %Y')
     return dt.strftime('%H:%M:%S %d/%m/%Y')
 
 
 def url_wrap(url):
+    """Url wrap function using ``click.style()`` (ANSI colors) for wrapping."""
     return click.style(url['url'], underline=True, fg='yellow')
 
 
 def hashtag_wrap(hashtag):
+    """Hashtag wrap function using ``click.style()`` (ANSI colors) for wrapping."""
     return click.style('#' + hashtag['text'], fg='blue')
 
 
 def mention_wrap(mention):
+    """Mention wrap function using ``click.style()`` (ANSI colors) for wrapping."""
     return click.style('@' + mention['screen_name'], fg='cyan')
 
-
 def colorize(tweet, hashtag_wrap, mention_wrap, url_wrap):
+    """
+    Used to wrap entities within tweet text with desired tags to
+    specify for example color output or html markup.
 
+    ``tweet`` -- Tweet entity obtained with ``TwitterSession.get_tweets()``
+    
+    ``hashtag_wrap``, ``mention_wrap``, ``url_wrap`` -- functions for wrapping entities
+
+    For example:
+    
+    ..code::
+        
+        
+        def hashtag_wrap(hashtag):
+            return '<span class="hashtag-span">#{}</span>'.format(hashtag['text'])
+    """
     text = tweet['text']
 
     entities = tweet['entities']['hashtags'] + tweet['entities'][
@@ -52,7 +76,10 @@ def colorize(tweet, hashtag_wrap, mention_wrap, url_wrap):
 
 
 def print_tweet(tweet):
-
+    """
+    Function to print tweet entity from ``TwitterSession.get_tweets()`` on stdout.
+    Uses ``click.echo()`` and ``click.style()`` functions for colorized output.
+    """
     text = colorize(tweet, hashtag_wrap, mention_wrap, url_wrap)
     text = Markup.unescape(text)
     created_at = time_filter(tweet['created_at'])

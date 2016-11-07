@@ -10,8 +10,23 @@ DEFAULT_CONFIG = '{}/.config/pytwitter/config.ini'.format(expanduser('~'))
 
 
 class TwitterSession:
+    """
+    **Class for accessing twitter**
+   
+
+    It creates and keeps session to fetch tweets. Betamax sessions are
+    also supported (you can pass session to constructor).
+    """
+    
     @staticmethod
     def create_twitter_session(api_key, api_secret, session=None):
+        """
+        Method for initializing new Twitter session.
+
+        ``api_key`` -- usualy loaded from config.ini
+        ``api_secret`` -- usualy loaded from config.ini
+        ``session`` ( = ``None``) -- optional argument for passing Betamax session
+        """
         session = session or requests.Session()
         secret = '{}:{}'.format(api_key, api_secret)
         secret64 = base64.b64encode(secret.encode('ascii')).decode('ascii')
@@ -39,6 +54,9 @@ class TwitterSession:
 
     @staticmethod
     def parse_config(config_path=DEFAULT_CONFIG):
+        """
+        Method for parsing config.ini file for Twitter API key and secret.
+        """
         cfg = configparser.ConfigParser()
         cfg.read(config_path)
 
@@ -49,7 +67,7 @@ class TwitterSession:
             print('Config file is missing or containing errors.')
             if config_path == DEFAULT_CONFIG:
                 print('Default config file should be placed in ~/.config/pytwitter/config.ini.')
-                print('Alternativly you could use -c/--config option to specify custom config file.')
+                print('Alternatively you could use -c/--config option to specify custom config file.')
 
             print('\nFor correct config file format check out config.ini.example and README')
             print('\nException: ')
@@ -63,13 +81,24 @@ class TwitterSession:
 
     @classmethod
     def init_from_file(cls, config_path=DEFAULT_CONFIG, session=None):
+        """
+        Initializes new instance of TwitterSession from file given
+        by ``config_path`` parameter.
+        """
         cfg = TwitterSession.parse_config(config_path)
         return cls(key=cfg['key'], secret=cfg['secret'])
 
 
     #count = 15 is to mimic default GET search/tweets behaviour
     def get_tweets(self, search, count=15, since_id=0, lang=None):
+        """
+        Returns desired number of tweets containing searched string.
 
+        ``search`` -- searched string
+        ``count`` -- maximum number of returned tweets
+        ``since_id`` ( = 0) -- get only tweets posted since tweet with this id was posted
+        ``lang`` ( = ``None``) -- specify desired tweet language (best effort according to Twitter API docs)
+        """
         params = {'q': search, 'since_id': since_id, 'count': count}
 
         if lang != None:

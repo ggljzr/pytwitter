@@ -17,11 +17,11 @@ def twitter_wall():
     help='Path to custom config file',
     default=DEFAULT_CONFIG)
 def web(config):
-    '''
+    """
     Runs embedded Flask webserver in debug mode
     This is for debugging purposes only!
-    For production use interface like wsgi to serve app with normal web server (like nginx)
-    '''
+    For production use interface like wsgi to serve app with normal web server (like nginx).
+    """
 
     from .flaskapp import app
     
@@ -57,7 +57,10 @@ def web(config):
 @click.option(
     '--retweets/--no-retweets', help='Show retweets in feed?', default=True)
 def console(searched_string, config, count, interval, lang, clear, retweets):
-
+    """
+    Fetches tweets containing ``searched_string`` from Twitter and prints
+    them on stdout in infinite loop.   
+    """
     session = TwitterSession.init_from_file(config_path=config)
 
     last_id = 0
