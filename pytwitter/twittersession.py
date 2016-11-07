@@ -83,7 +83,7 @@ class TwitterSession:
     def init_from_file(cls, config_path=DEFAULT_CONFIG, session=None):
         """
         Initializes new instance of TwitterSession from file given
-        by ``config_path`` parameter.
+        by ``config_path`` parameter. Default value is ``~/.config/pytwitter/config.ini``.
         """
         cfg = TwitterSession.parse_config(config_path)
         return cls(key=cfg['key'], secret=cfg['secret'])
