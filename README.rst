@@ -131,3 +131,21 @@ Test requirements
 
 These should be collected automatically when running
 ``python3 setup.py test``
+
+Documentation
+-------------
+
+You can generate project Documentation with `Sphinx <http://www.sphinx-doc.org/en/1.4.8/>`__. First make sure it is installed:
+
+::
+    
+    #this only install Sphinx, since it is the only dependency
+    pip install -r docs/requirements.txt
+
+Then you can run ``make`` to generate html docs or run doctests:
+
+::
+    
+    cd docs
+    make html #this will create html documentation in docs/_build/html
+    make doctest
