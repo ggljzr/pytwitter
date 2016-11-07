@@ -1,11 +1,11 @@
 from setuptools import setup, find_packages
 
-with open('README') as f:
+with open('README.rst') as f:
     long_description = ''.join(f.readlines())
 
 setup(
     name='pytwitter',
-    version='0.4.1',
+    version='0.5.0',
     description='Finds and displays tweets either in terminal on via web frontend',
     long_description=long_description,
     author='Ondřej Červenka',
