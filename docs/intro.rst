@@ -74,7 +74,7 @@ Console mode
     #(quit with ctrl + c)
     pytwitter console '#python'
 
-.. figure:: ../screen.png
+.. figure:: _static/screen.png
 
 Web mode
 ~~~~~~~~

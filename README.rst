@@ -62,7 +62,7 @@ Console mode
     #(quit with ctrl + c)
     pytwitter console '#python'
 
-.. figure:: screen.png
+.. figure:: docs/_static/screen.png
    :alt: Screen
 
    Screen
