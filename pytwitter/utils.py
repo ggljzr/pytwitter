@@ -35,7 +35,7 @@ def colorize(tweet, hashtag_wrap, mention_wrap, url_wrap):
     Used to wrap entities within tweet text with desired tags to
     specify for example color output or html markup.
 
-    ``tweet`` -- Tweet entity obtained with ``TwitterSession.get_tweets()``
+    ``tweet`` -- Tweet entity obtained with :meth:`pytwitter.TwitterSession.get_tweets()`
     
     ``hashtag_wrap``, ``mention_wrap``, ``url_wrap`` -- functions for wrapping entities
 

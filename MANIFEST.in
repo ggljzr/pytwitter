@@ -6,3 +6,5 @@ recursive-include pytwitter/static *
 
 recursive-include tests/cassettes *
 include tests/conftest.py
+
+recursive-include docs *

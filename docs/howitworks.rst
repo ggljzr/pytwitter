@@ -7,6 +7,8 @@ Application uses `Twitter API <https://dev.twitter.com/overview/api>`__ to searc
 Creating new Twitter session
 ----------------------------
 
+First we need to establish new Twitter session, using our API key and secret as credentials.
+
 .. code::
    
     from pytwitter.twittesession import TwitterSession 
@@ -19,8 +21,11 @@ Creating new Twitter session
 
     session = TwitterSession.init_from_file('/path/to/config/file.ini')
 
+
 Fetching tweets
 ---------------
+
+Then we can use this session to send `GET search <https://dev.twitter.com/rest/reference/get/search/tweets>`__ requests to Twitter API. This request returns JSON structure with tweets that contain specified string (structure of tweet entity is described `here <https://dev.twitter.com/overview/api/tweets>`__). 
 
 .. code::
     
@@ -33,6 +38,10 @@ Fetching tweets
 
 Processing entities in tweet
 ----------------------------
+
+Body of the tweet (tweet text) can contain entities like hashtags or user mentions. Usually we would want to process (by adding color higlighting or hypertext links) these entities when displaying tweets in console app or web frontend .
+
+To do that, we can use ``tweet['entities']`` attribute provided by Twitter API, which (among `other things <https://dev.twitter.com/overview/api/entities>`__) describes position of each entity in tweet text. This way we can process entities without having to parse them directly from ``tweet['text']`` attribute.
 
 .. testsetup::
 
@@ -62,12 +71,17 @@ Processing entities in tweet
         'favorite_count' : 161
         }
 
+In this example we define functions used to wrap entites and then pass them to :func:`pytwitter.utils.colorize()` function along with the tweet we want to process. 
+
+Function :func:`pytwitter.utils.colorize()` then returns tweet text with specified wrap function applied to each entity.
+
 .. testcode::
 
     import pytwitter.utils as utils
 
     def wrap_url(url):
-        return '<cyan>{}</cyan>'.format(url['url'])
+        return '<a href="{}">{}</a>'.format(url['url'], 
+                                            url['display_url'])
 
     def wrap_hashtag(hashtag):
         return '<red>#{}</red>'.format(hashtag['text'])
@@ -83,6 +97,9 @@ Processing entities in tweet
                                     wrap_mention, 
                                     wrap_url)
     print(processed_text)
+
+
+Output of example above should look like this:
 
 .. testoutput:: 
    
