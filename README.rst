@@ -1,4 +1,4 @@
-pytwitter
+Pytwitter
 =========
 
 Simple application for displaying tweets containing string given by
@@ -10,7 +10,7 @@ http://ggljzr.pythonanywhere.com.
 Application was created as part of Python course
 (https://github.com/cvut/MI-PYT, in Czech).
 
-Link to PyPi(testing) package:
+Link to PyPI(testing) package:
 https://testpypi.python.org/pypi/pytwitter.
 
 Requirements
@@ -21,15 +21,31 @@ Requirements
 -  requests
 -  Flask
 
+Installation
+------------
+
+You can get this package directly from github:
+
+::
+    git clone https://github.com/ggljzr/pytwitter
+    cd pytwitter
+    python3 setup.py install
+
+Alternatively you can download package from testing PyPI link above.
+This is not recommended though, because it is not guaranteed that it will be there.
+
 Usage
 -----
 
 You need to have a Twitter account and create a new app at
-https://apps.twitter.com/.
+https://apps.twitter.com/. You will get key and secret which
+are used to generate token to access your Twitter account via
+API. For security purposes you may want to set this particular
+app to have read access only (since application just fetches tweets).
 
-Then you need to create config.ini file containing Twitter API key and
+Then you need to create ``config.ini`` file containing Twitter API key and
 secret. Application looks for default config file in
-~/.config/pytwitter/config.ini.
+``~/.config/pytwitter/config.ini``.
 
 ::
 
@@ -38,8 +54,17 @@ secret. Application looks for default config file in
     #copy example config in place
     cp config.ini.example ~/.config/pytwitter/config.ini
 
-When you have config.ini in place, you just have to fill in API key and
+When you have ``config.ini`` in place, you just have to fill in API key and
 secret instead of placeholders.
+
+::
+
+    [twitter]
+    key = your-api-key
+    secret = your-api-secret
+
+    [github]
+    #you can ignore this part
 
 Alternatively you can use --config option to specify path to any custom
 config file (in web or console mode).
@@ -63,9 +88,6 @@ Console mode
     pytwitter console '#python'
 
 .. figure:: docs/_static/screen.png
-   :alt: Screen
-
-   Screen
 
 Web mode
 ~~~~~~~~
@@ -109,7 +131,7 @@ Application package also contains set of recorded
 sessions, so you run test even without having registered Twitter
 account, or internet connection.
 
-If you want to record your own sessions, you have to create a config.ini
+If you want to record your own sessions, you have to create a ``config.ini``
 file, as described `here <#usage>`__ and create ``AUTH_FILE``
 environment variable:
 
@@ -135,7 +157,7 @@ These should be collected automatically when running
 Documentation
 -------------
 
-You can generate project Documentation with `Sphinx <http://www.sphinx-doc.org/en/1.4.8/>`__. First make sure it is installed:
+You can generate project documentation with `Sphinx <http://www.sphinx-doc.org/en/1.4.8/>`__. First make sure it is installed:
 
 ::
     
@@ -149,3 +171,5 @@ Then you can run ``make`` to generate html docs or run doctests:
     cd docs
     make html #this will create html documentation in docs/_build/html
     make doctest
+
+To make sure Sphinx generate all documentation from docstrings correctly, you have to install the package (e.g. ``python3 setup.py install``) first.
