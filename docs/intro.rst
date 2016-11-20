@@ -27,6 +27,7 @@ Installation
 You can get this package directly from github:
 
 ::
+
     git clone https://github.com/ggljzr/pytwitter
     cd pytwitter
     python3 setup.py install
@@ -66,7 +67,7 @@ secret instead of placeholders.
     [github]
     #you can ignore this part
 
-Alternatively you can use --config option to specify path to any custom
+Alternatively you can use ``--config`` option to specify path to any custom
 config file (in web or console mode).
 
 ::
